@@ -2,5 +2,6 @@ language: python
 python: 
   - "3.6"
 
-script: 
+script:
+  - chmod -x run.sh
   - ./run.sh
