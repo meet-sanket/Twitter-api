@@ -4,4 +4,4 @@ python:
 
 script:
   - chmod -x run.sh
-  - ./run.sh
+  - bash run.sh
