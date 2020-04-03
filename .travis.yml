@@ -2,6 +2,32 @@ language: python
 python: 
   - "3.6"
 
+deploy:
+- provider: s3
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  local_dir: dpl_cd_upload
+  skip_cleanup: true
+  on: &2
+    repo: meet-sanket/Twitter-api
+  bucket: us-east-server-1-deploymentstwitter
+  region: us-east-1
+- provider: codedeploy
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: us-east-server-1-deploymentstwitter
+  key: latest.zip
+  bundle_type: zip
+  application: Twitter-api
+  deployment_group: Twitter-pipeline
+  region: us-east-1
+  on: *2
+
 script:
-  - chmod -x run.sh
-  - bash run.sh
+  - zip -r latest *
+  - mkdir -p dpl_cd_upload
+  - mv latest.zip dpl_cd_upload/latest.zip
+
+# script:
+#   - chmod -x run.sh
+#   - bash run.sh
